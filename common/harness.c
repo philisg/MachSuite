@@ -13,13 +13,16 @@
 
 int main(int argc, char **argv)
 {
+  printf("STARTING!!\n");
   // Parse command line.
   char *in_file;
+  char *out_file;
   #ifdef CHECK_OUTPUT
   char *check_file;
   #endif
-  assert( argc<4 && "Usage: ./benchmark <input_file> <check_file>" );
+  assert( argc<5 && "Usage: ./benchmark <input_file> <check_file> <output_file>" );
   in_file = "input.data";
+  out_file = "output.data";
   #ifdef CHECK_OUTPUT
   check_file = "check.data";
   #endif
@@ -29,6 +32,8 @@ int main(int argc, char **argv)
   if( argc>2 )
     check_file = argv[2];
   #endif
+  if( argc>3 )
+    out_file = argv[3];
 
   // Load input data
   int in_fd;
@@ -38,16 +43,20 @@ int main(int argc, char **argv)
   in_fd = open( in_file, O_RDONLY );
   assert( in_fd>0 && "Couldn't open input data file");
   input_to_data(in_fd, data);
+  printf("Input file loaded! Running benchmark!\n");// debug info
   
   // Unpack and call
   run_benchmark( data );
 
+  Benchmark_done_running();
+
   #ifdef WRITE_OUTPUT
   int out_fd;
-  out_fd = open("output.data", O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+  out_fd = open(out_file, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
   assert( out_fd>0 && "Couldn't open output data file" );
   data_to_output(out_fd, data);
   close(out_fd);
+  printf("Output data loaded!\n");//debug info
   #endif
 
   // Load check data
@@ -59,6 +68,7 @@ int main(int argc, char **argv)
   check_fd = open( check_file, O_RDONLY );
   assert( check_fd>0 && "Couldn't open check data file");
   output_to_data(check_fd, ref);
+  printf("Check data loaded!\n");//debug info
   #endif
 
   // Validate benchmark results

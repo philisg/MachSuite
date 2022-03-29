@@ -9,6 +9,11 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
+//Send the magic stop instuction
+void Benchmark_done_running(void){
+  printf("Benchmark is done running\n");
+}
+
 // In general, fd_printf is used for individual values.
 #define SUFFICIENT_SPRINTF_SPACE 256
 // It'd be nice if dprintf was c99. But it ain't.

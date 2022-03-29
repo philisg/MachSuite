@@ -5,6 +5,9 @@
 char *readfile(int fd);
 char *find_section_start(char *s, int n);
 
+///// For stoping analyses
+void Benchmark_done_running(void);
+
 ///// Array read functions
 #define SECTION_TERMINATED -1
 int parse_string(char *s, char *arr, int n); // n==-1 : %%-terminated
