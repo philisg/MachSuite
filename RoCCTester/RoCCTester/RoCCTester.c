@@ -13,6 +13,7 @@
   input #2			    2			src1(I)		    -               -     2 (Used when we have two inputs)
   input length #1|#2	2			src2(lenI2)	    src1(lenI1)	    -     3
 
+  * ROCC_INSTRUCTION_SS(0,src1,src2, instruction)
   * configure: configure the CGRA with a mapping (`busy` while configuring)
   * one input: when the configuration demands a single input (pointer)
   * two inputs: setup two inputs for the configuration
@@ -34,7 +35,6 @@ void send_config(){
             config2 = config2 << 8;
             config2 = config2 | cgra_configuration[i+(8*k)+8];
         }
-        //printf("%d: \t%lx, \t%lx\n",k,config1,config2);
         ROCC_INSTRUCTION_SS(0,config1, config2, 0);
     }
     printf("Config Sent!!\n");
@@ -45,32 +45,33 @@ int main () {
 
     printf("Starting program!\n");
 
-    int a = 30, b = 5, sum = 2;
-    printf("Adresses: a: %p, b: %p \n", &a,&b);
-    int c = 55;
-    int array[] = {10,5,6,50,448,35,5,3};
-    printf("Adresses: a: %p, b: %p, c: %p \n", &a,&b,&c);
+    int sum = 2;
+    int array1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    int array2[] = {5,6,7,8,7,10,11,11,11,11,11,12,13,14,15,16,17,18,19,20};
+
+    printf("Adresses: array1: %p, array2: %p, sum has value: %d with adress: %p \n", &array1,&array2, sum, &sum);
+
 
     asm volatile ("fence");
-
-    
-    ROCC_INSTRUCTION_SS(0,&b,&b,1);
-    // ROCC_INSTRUCTION_SS(0,0x0000003ffffffae8,&b,1);
-
-
+    // Send the config first
     send_config();
-    ROCC_INSTRUCTION_SS(0,&b,&b,1);
 
+    // Send the first input and output address
+    ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
 
-    // ROCC_INSTRUCTION_S(0,&sum,2);
-    // ROCC_INSTRUCTION_SS(0,&b,55,3);
+    // Send the #2 input address
+    ROCC_INSTRUCTION_S(0,&array2,2);
 
-    // ROCC_INSTRUCTION_DSS(0,sum,c,b,0);
-    // printf("Second instruction sent to accelerator\n");
+    // Send the array length. This need to be the same for array1 and array2 in this configuration
+    // This will also start the calculation
+    ROCC_INSTRUCTION_SS(0,19,19,3);
+
 
     asm volatile ("fence" ::: "memory");
 
-    printf("Program Done!\n");
+    for(int i = 0; i < 1000; i++){}
+
+    printf("Program Done! sum is: %d\n", sum);
 
     return 0;
 }

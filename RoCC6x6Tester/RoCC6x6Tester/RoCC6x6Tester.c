@@ -13,6 +13,7 @@
   input #2			    0			src1(I)		    -               -     2 (Used when we have two inputs)
   input length #2|#1	0			src2(lenI2)	    src1(lenI1)	    -     3
 
+  * ROCC_INSTRUCTION_SS(0,src1,src2, instruction)
   * configure: configure the CGRA with a mapping (`busy` while configuring)
   * one input: when the configuration demands a single input (pointer)
   * two inputs: setup two inputs for the configuration
@@ -40,9 +41,9 @@ void send_config(){
     printf("Config Sent!!\n");
 }
 
-volatile int * a;//[N] = {1,2,3,4,5,6,7,8,9,10};
+// volatile int * a;//[N] = {1,2,3,4,5,6,7,8,9,10};
 
-volatile int * n;
+// volatile int * n;
 
 int main () {
 
@@ -51,27 +52,29 @@ int main () {
 
     printf("Starting program!\n");
     
-    // int N = *n;
     int sum = 0;
-    // int i;
-
-    // int b = 5;
-    printf("Adresses: array1: %p, array2: %p, Volatile int a: %p, sum has the value: %d and the adress: %p\n", &array1,&array2,&a, sum, &sum);
+    
+    printf("Adresses: array1: %p, array2: %p, sum has the value: %d and the adress: %p\n", &array1,&array2, sum, &sum);
     // printf("Adresses: N: %p, sum: %p, a: %p \n",&N, &sum, &a);
 
     asm volatile ("fence");
-    ROCC_INSTRUCTION_SS(0,&sum,&sum,1);
-
+    // Send the config first
     send_config();
-    
-    // ROCC_INSTRUCTION_SS(0,&b,&b,1);
 
-    // ROCC_INSTRUCTION_S(0,&sum,2);
+    // Send the first input and output address
+    ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
 
-    // ROCC_INSTRUCTION_DSS(0,sum,c,b,0);
+    // Send the #2 input address
+    ROCC_INSTRUCTION_S(0,&array2,2);
+
+    // Send the array length. This need to be the same for array1 and array2 in this configuration
+    // This will also start the calculation
+    ROCC_INSTRUCTION_SS(0,19,19,3);
 
     asm volatile ("fence" ::: "memory");
 
+    for(int i = 0; i < 1000; i++){}
+
     printf("Program Done! Sum is: %d\n", sum);
-    return sum;
+    return 0;
 }
