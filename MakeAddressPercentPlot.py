@@ -5,19 +5,21 @@ import os
 pd.set_option('display.max_columns' , None) #prevents trailing elipses
 pd.set_option('display.max_rows'    , None)
 
-try:
-    # Automatic detection of folder and benchmark
-    directory       = os.getcwd()
-    directoryList   = directory.split('\\')
-    Benchmark       = directoryList[3] + "_" + directoryList[4]
-    print("Checking ", Benchmark)
-except:
-    # Manual input of directory if not in the correct folder
-    Benchmark       = input("Which benchmark? Format:(benchmark_benchmark):")
-    splited         = Benchmark.split("_")
-    directory       = "Z:\Documents\MachSuite"
-    NewDirectory    = directory+"\\"+splited[0]+"\\"+splited[1]
-    os.chdir(NewDirectory)
+# try:
+#     # Automatic detection of folder and benchmark
+#     directory       = os.getcwd()
+#     directoryList   = directory.split('\\')
+#     Benchmark       = directoryList[3] + "_" + directoryList[4]
+#     print("Checking ", Benchmark)
+# except:
+#     # Manual input of directory if not in the correct folder
+#     Benchmark       = input("Which benchmark? Format:(benchmark_benchmark):")
+#     splited         = Benchmark.split("_")
+#     directory       = "Z:\Documents\MachSuite"
+#     NewDirectory    = directory+"\\"+splited[0]+"\\"+splited[1]
+#     os.chdir(NewDirectory)
+
+Benchmark = input("which benchmark?")
 
 # To make the print go to a file
 sys.stdout=open(Benchmark+"_python_percentage_output.txt", "w")

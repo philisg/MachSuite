@@ -7,11 +7,11 @@
 #include "RoCCTester.h"
 
 
-/* instruction			roccinst	src2		    src1	        dst	  custom-N
-  configure			    2			-	            config	        -	  0
-  one input&output	    2			src2(O)		    src1(I)	        -	  1
-  input #2			    2			src1(I)		    -               -     2 (Used when we have two inputs)
-  input length #1|#2	2			src2(lenI2)	    src1(lenI1)	    -     3
+/* instruction		    roccinst	src1		    src2	        dst	  custom-N
+  configure			    0			config          config	        -	  0
+  one input&output	    0			src1(O)		    src2(O)	        -	  1 output = src2, input = src1
+  input #2			    0			src2(I)		    -               -     2 (Used when we have two inputs)
+  input length #1	    0			src1(lenI1)	    0         	    -     3
 
   * ROCC_INSTRUCTION_SS(0,src1,src2, instruction)
   * configure: configure the CGRA with a mapping (`busy` while configuring)
@@ -60,7 +60,7 @@ int main () {
     ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
 
     // Send the #2 input address
-    ROCC_INSTRUCTION_S(0,&array2,2);
+    // ROCC_INSTRUCTION_S(0,&array2,2);
 
     // Send the array length. This need to be the same for array1 and array2 in this configuration
     // This will also start the calculation

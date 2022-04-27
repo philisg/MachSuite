@@ -1,9 +1,6 @@
 #!/usr/bin/python
-
-from fcntl import I_ATMARK
 import sys
 
-from sympy import false, true
 ThisInstDict    = {}
 ThisPCDict      = {}
 
@@ -11,43 +8,43 @@ ThisPCDict      = {}
 NumberOfLines   = 0
 LastCycleCount  = 0
 NumberOfCycles  = 0
-StartAddress = {"aes_aes":"00000000000113ac",
-"bfs_bulk":"00000000000103f8",
-"bfs_queue":"0000000000010436",
-"fft_strided":"0000000000010406",
-"fft_transpose":"000000000001165e",
-"gemm_blocked":"000000000001041c",
-"gemm_ncubed":"000000000001039a",
-"kmp_kmp":"000000000001044a",
-"md_grid":"00000000000105ce",
-"md_knn":"0000000000010410",
-"nw_nw":"0000000000010528",
-"sort_merge":"00000000000105a0",
-"sort_radix":"0000000000010a84",
-"spmv_crs":"00000000000103b8",
-"spmv_ellpack":"00000000000103fa",
-"stencil_stencil2d":"0000000000010434",
-"stencil_stencil3d":"00000000000107a8",
-"viterbi_viterbi":"00000000000104d6"}
+StartAddress = {"aes_aes"           :"00000000000113ac",
+                "bfs_bulk"          :"00000000000103f8",
+                "bfs_queue"         :"0000000000010436",
+                "fft_strided"       :"0000000000010406",
+                "fft_transpose"     :"000000000001165e",
+                "gemm_blocked"      :"000000000001041c",
+                "gemm_ncubed"       :"000000000001039a",
+                "kmp_kmp"           :"000000000001044a",
+                "md_grid"           :"00000000000105ce",
+                "md_knn"            :"0000000000010410",
+                "nw_nw"             :"0000000000010528",
+                "sort_merge"        :"00000000000105a0",
+                "sort_radix"        :"0000000000010a84",
+                "spmv_crs"          :"00000000000103b8",
+                "spmv_ellpack"      :"00000000000103fa",
+                "stencil_stencil2d" :"0000000000010434",
+                "stencil_stencil3d" :"00000000000107a8",
+                "viterbi_viterbi"   :"00000000000104d6"}
 
-EndAddress = {"aes_aes":"000000000001158a",
-"bfs_bulk":"000000000001072c",
-"bfs_queue":"000000000001076a",
-"fft_strided":"00000000000106a4",
-"fft_transpose":"0000000000011896",
-"gemm_blocked":"0000000000010630",
-"gemm_ncubed":"00000000000105ae",
-"kmp_kmp":"0000000000010640",
-"md_grid":"0000000000010c70",
-"md_knn":"0000000000010746",
-"nw_nw":"000000000001077a",
-"sort_merge":"000000000001077c",
-"sort_radix":"0000000000010c76",
-"spmv_crs":"000000000001064e",
-"spmv_ellpack":"0000000000010662",
-"stencil_stencil2d":"000000000001063c",
-"stencil_stencil3d":"000000000001097e",
-"viterbi_viterbi":"0000000000010744"}
+EndAddress = {  "aes_aes"           :"000000000001158a",
+                "bfs_bulk"          :"000000000001072c",
+                "bfs_queue"         :"000000000001076a",
+                "fft_strided"       :"00000000000106a4",
+                "fft_transpose"     :"0000000000011896",
+                "gemm_blocked"      :"0000000000010630",
+                "gemm_ncubed"       :"00000000000105ae",
+                "kmp_kmp"           :"0000000000010640",
+                "md_grid"           :"0000000000010c70",
+                "md_knn"            :"0000000000010746",
+                "nw_nw"             :"000000000001077a",
+                "sort_merge"        :"000000000001077c",
+                "sort_radix"        :"0000000000010c76",
+                "spmv_crs"          :"000000000001064e",
+                "spmv_ellpack"      :"0000000000010662",
+                "stencil_stencil2d" :"000000000001063c",
+                "stencil_stencil3d" :"000000000001097e",
+                "viterbi_viterbi"   :"0000000000010744"}
 
 # Name of benchmark to profile
 # Benchmark       = raw_input("which Benchmark? (format: \"benchmark_benchmark\") ")
@@ -60,7 +57,7 @@ ReadingLineNumber = 0
 LastLoopPC      = "0"
 LastLoopInst    = "0"
 StartLine       = 0
-Done_analyzing  = false
+Done_analyzing  = False
 # If we dont know the starting point, analyze all.
 if StartAddress[Benchmark] == " ":
     StartLine = 1
@@ -100,7 +97,7 @@ with open(Benchmark+"_outputlog.txt", 'r') as f:
                         value   = i.split("[")
                         i       = value[1]
                         if EndAddress != " " and i == EndAddress[Benchmark]:
-                            Done_analyzing = true
+                            Done_analyzing = True
                             break
                         if LastLoopPC in ThisPCDict:
                             # update +1

@@ -7,11 +7,11 @@
 #include "RoCC2x2Tester.h"
 
 
-/* instruction		    roccinst	src2		    src1	        dst	  custom-N
-  configure			    0			-	            config	        -	  0
-  one input&output	    0			src2(O)		    src1(I)	        -	  1 output = src2, input = src1
-  input #2			    0			src1(I)		    -               -     2 (Used when we have two inputs)
-  input length #2|#1	0			src2(lenI2)	    src1(lenI1)	    -     3
+/* instruction		    roccinst	src1		    src2	        dst	  custom-N
+  configure			    0			config          config	        -	  0
+  one input&output	    0			src1(O)		    src2(O)	        -	  1 output = src2, input = src1
+  input #2			    0			src2(I)		    -               -     2 (Used when we have two inputs)
+  input length #1	    0			src1(lenI1)	    0         	    -     3
 
 
   * ROCC_INSTRUCTION_SS(0,src1,src2, instruction)
@@ -36,46 +36,53 @@ void send_config(){
             config2 = config2 << 8;
             config2 = config2 | cgra_configuration[i+(8*k)+8];
         }
-        //printf("%d: \t%lx, \t%lx\n",k,config1,config2);
         ROCC_INSTRUCTION_SS(0,config1, config2, 0);
     }
     printf("Config Sent!!\n");
 }
-
-volatile int * a;//[N] = {1,2,3,4,5,6,7,8,9,10};
-
-volatile int * n;
+void array_gen(int len , int array[]){
+    int arraysum = 0;
+    for(int i = 0; i< len; i++){
+        array[i] = rand() % 100;
+        arraysum += array[i];     
+        printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
+    }
+}
 
 int main () {
 
-    int array1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    asm ("nop"); //Marking start of program
+
+    int ComputeLength = 100;
+    int array1[] = {1,2,3,4,5,6};
     printf("Starting program!\n");
     
-    int tester = 45;
-    // int N = *n;
+    array_gen(ComputeLength,array1);
+
     int sum = 0;
-    // int i;
 
-    for(int i = 0; i < 15; i++){
-        printf("adress of array1[%d] = %p , Tester is: %d at adress: %p\n", i, &array1[i], tester, &tester);
-    }
-
-    int b = 5;
-    printf("Adresses: array1: %p, b: %p, Volatile int a: %p, sum has the value: %d with address: %p \n", &array1,&b,&a,sum,&sum);
+    printf("Addresses: array1: %p, sum has the value: %d with address: %p \n", &array1,sum,&sum);
     // printf("Adresses: N: %p, sum: %p, a: %p \n",&N, &sum, &a);
 
     asm volatile ("fence");
 
-    ROCC_INSTRUCTION_SS(0,&array1,&sum,1); 
-    
-    send_config();
-    
-    ROCC_INSTRUCTION_SS(0,15,15,3);
+    asm("nop"); //Marking start of configuration
 
-    ROCC_INSTRUCTION_S(0,&tester,4);
+    send_config();
+
+    ROCC_INSTRUCTION_SS(0,&array1,&sum,1); 
+
+    asm("nop"); //Marking the starting of computation
+    
+    ROCC_INSTRUCTION_SS(0,ComputeLength,0,3);
+
+    asm("nop"); //Marking end of computatio
+
+    // if not here, the Sum will not be available to CPU (Datarace)
+    ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
 
     asm volatile ("fence" ::: "memory");
 
-    printf("Program Done! Sum is: %d, array1{0] is: %d, tester is: %d\n", sum, array1[0],tester);
+    printf("Program Done! Sum is: %d\n", sum);
     return 0;
 }
