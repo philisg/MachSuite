@@ -14,20 +14,20 @@ void array_gen(int len , int array[]){
 int main() {
     asm("nop"); //Marking start of program
     asm("nop"); //Marking start of configuration
-    asm("nop"); //Marking start of Computation
-
+    
     int a[]= {1,2};
     int sum = 0;
 
     array_gen(100,a);
     // int i;
+    asm("nop"); //Marking start of Computation
     for (int i = 0; i < 100; i++) {
         //DFGLoop: loop
         sum += a[i];
     }
     // printf("sum = %d\n", sum);
 
-    asm("nop"); //Marking start of configuration
+    asm("nop"); //Marking end of computation
     return sum;
 }
 
