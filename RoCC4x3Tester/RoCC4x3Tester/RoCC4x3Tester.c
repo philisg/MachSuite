@@ -4,7 +4,7 @@
 #include "rocc.h"
 #include "encoding.h"
 #include "compiler.h"
-#include "RoCC2x2Tester.h"
+#include "RoCC4x3Tester.h"
 
 
 /* instruction		    roccinst	src1		    src2	        dst	  custom-N
@@ -28,7 +28,7 @@ void send_config(){
     unsigned long int config1 = 0;
     unsigned long int config2 = 0;
 
-    for(int k = 0; k < 3; k=k+2){
+    for(int k = 0; k < 11; k=k+2){
         for(int i = 0; i < 8; i ++){
             config1 = config1 << 8;
             config1 = config1 | cgra_configuration[i+(8*k)];
@@ -62,18 +62,21 @@ int main () {
     int sum = 0;
 
     printf("Addresses: array1: %p, sum has the value: %d with address: %p \n", &array1,sum,&sum);
-    // printf("Adresses: N: %p, sum: %p, a: %p \n",&N, &sum, &a);
 
     asm volatile ("fence");
 
     asm("nop"); //Marking start of configuration
 
+    // Send the config first
     send_config();
 
+    // Send the first input and output address
     ROCC_INSTRUCTION_SS(0,&array1,&sum,1); 
 
     asm("nop"); //Marking the starting of computation
     
+    // Send the array length. This need to be the same for array1 and array2 in this configuration
+    // This will also start the calculation
     ROCC_INSTRUCTION_SS(0,ComputeLength,0,3);
 
     asm("nop"); //Marking end of computatio

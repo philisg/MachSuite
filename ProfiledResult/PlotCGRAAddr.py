@@ -1,4 +1,3 @@
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
@@ -82,33 +81,48 @@ def MakeGraphData(Benchmark, IsBaseBench=False):
 #     directory       = "Z:\Documents\MachSuite"
 #     NewDirectory    = directory+"\\"+splited[0]+"\\"+splited[1]
 #     os.chdir(NewDirectory)
-
-Benchmark1 = "Base_result"
-Benchmark2 = "2x2result"
-Benchmark3 = "stream2x2result"
-Benchmark4 = "6x6result"
-
-
-
-# To make the print go to a file
-# sys.stdout=open(Benchmark+"_python_percentage_output.txt", "w")
-# Get number of lines in simulation
+Benchmark = [   
+            "Base_result", 
+            "2x2result",
+            "4x3result",
+            "6x6result",
+            "stream2x2result",
+            "stream4x3result",
+            "stream6x6result"]
 
 
-plot1 = MakeGraphData(Benchmark1, True)
-plot2 = MakeGraphData(Benchmark2)
-plot3 = MakeGraphData(Benchmark3)
-plot4 = MakeGraphData(Benchmark4)
+plot1 = MakeGraphData(Benchmark[0], True)
+plot2 = MakeGraphData(Benchmark[1])
+plot3 = MakeGraphData(Benchmark[2])
+plot4 = MakeGraphData(Benchmark[3])
+plot5 = MakeGraphData(Benchmark[4])
+plot6 = MakeGraphData(Benchmark[5])
+plot7 = MakeGraphData(Benchmark[6])
 
-y0 = np.array([plot1[0]/Base_Number_Of_Cycles, plot2[0]/Base_Number_Of_Cycles, plot3[0]/Base_Number_Of_Cycles, plot4[0]/Base_Number_Of_Cycles])
-y1 = np.array([plot1[1]/Base_Number_Of_Cycles, plot2[1]/Base_Number_Of_Cycles, plot3[1]/Base_Number_Of_Cycles, plot4[1]/Base_Number_Of_Cycles])
-y2 = np.array([plot1[2]/Base_Number_Of_Cycles, plot2[2]/Base_Number_Of_Cycles, plot3[2]/Base_Number_Of_Cycles, plot4[2]/Base_Number_Of_Cycles])
-x = np.array([Benchmark1, Benchmark2, Benchmark3, Benchmark4])
+# plot = {}
+# for i in Benchmark:
+#     if "Base" in i:
+#         plot[i] = MakeGraphData(i,True)
+#     else:
+#         plot[i] = MakeGraphData(i)
+
+
+y = {}
+for i in  range(0,3):
+    y[i] = np.array([   plot1[i]/Base_Number_Of_Cycles, 
+                        plot2[i]/Base_Number_Of_Cycles,
+                        plot3[i]/Base_Number_Of_Cycles, 
+                        plot4[i]/Base_Number_Of_Cycles, 
+                        plot5[i]/Base_Number_Of_Cycles, 
+                        plot6[i]/Base_Number_Of_Cycles, 
+                        plot7[i]/Base_Number_Of_Cycles])
+
+x = Benchmark
 
 plt.title("CGRA performance")
-plt.bar(x, y0)
-plt.bar(x, y1, bottom=y0)
-plt.bar(x, y2, bottom=y0+y1)
+plt.bar(x, y[0])
+plt.bar(x, y[1], bottom=y[0])
+plt.bar(x, y[2], bottom=y[0]+y[1])
 plt.legend(["configuration", "Program", "Configuration"])
 plt.show()
 

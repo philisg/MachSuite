@@ -35,7 +35,6 @@ void send_config(){
             config2 = config2 << 8;
             config2 = config2 | cgra_configuration[i+(8*k)+8];
         }
-        //printf("%d: \t%lx, \t%lx\n",k,config1,config2);
         ROCC_INSTRUCTION_SS(0,config1, config2, 0);
     }
     printf("Config Sent!!\n");
@@ -43,7 +42,7 @@ void send_config(){
 
 void array_gen(int len , int array[]){
     int arraysum = 0;
-    for(int i = 0; i < len; i++){
+    for(int i = 0; i< len; i++){
         array[i] = rand() % 100;
         arraysum += array[i];   
         printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
@@ -55,15 +54,14 @@ int main () {
     asm ("nop"); //Marking start of program
 
     int ComputeLength = 100;
-    int array1[] = {1,2,3,4,5,6,7,8,9,10};
-
+    int array1[] = {1,2,3,4,5,6};
     printf("Starting program!\n");
 
     array_gen(ComputeLength,array1);
     
     int sum = 0;
     
-    printf("Adresses: array1: %p, sum has the value: %d and the adress: %p\n", &array1, sum, &sum);
+    printf("Addresses: array1: %p, sum has the value: %d with address: %p \n", &array1,sum,&sum);
 
     asm volatile ("fence");
 
@@ -73,7 +71,7 @@ int main () {
     send_config();
 
     // Send the first input and output address
-    ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
+    ROCC_INSTRUCTION_SS(0,&array1,&sum,1);
 
     asm("nop"); //Marking the starting of computation
 
@@ -85,10 +83,9 @@ int main () {
 
     // if not here, the Sum will not be available to CPU (Datarace)
     ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
-    // To get sum visable for CPU
 
     asm volatile ("fence" ::: "memory");
 
     printf("Program Done! Sum is: %d\n", sum);
-    return sum;
+    return 0;
 }
