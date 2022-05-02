@@ -37,7 +37,7 @@ void send_config(){
         }
         ROCC_INSTRUCTION_SS(0,config1, config2, 0);
     }
-    printf("Config Sent!!\n");
+    // printf("Config Sent!!\n");
 }
 
 void array_gen(int len , int array[]){
@@ -45,8 +45,10 @@ void array_gen(int len , int array[]){
     for(int i = 0; i< len; i++){
         array[i] = rand() % 100;
         arraysum += array[i];     
-        printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
+        // printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
     }
+    printf("Arraysum is: %d\n", arraysum);
+
 }
 
 int main () {
@@ -55,28 +57,31 @@ int main () {
 
     int ComputeLength = 100;
     int array1[] = {1,2,3,4,5,6};
-    printf("Starting program!\n");
+    // printf("Starting program!\n");
     
     array_gen(ComputeLength,array1);
 
     int sum = 0;
 
-    printf("Addresses: array1: %p, sum has the value: %d with address: %p \n", &array1,sum,&sum);
-    // printf("Adresses: N: %p, sum: %p, a: %p \n",&N, &sum, &a);
+    // printf("Addresses: array1: %p, sum has the value: %d with address: %p \n", &array1,sum,&sum);
 
     asm volatile ("fence");
 
     asm("nop"); //Marking start of configuration
 
+    // Send the config first
     send_config();
 
+    // Send the first input and output address
     ROCC_INSTRUCTION_SS(0,&array1,&sum,1); 
 
     asm("nop"); //Marking the starting of computation
     
+     // Send the array length. This need to be the same for array1 and array2 in this configuration
+    // This will also start the calculation
     ROCC_INSTRUCTION_SS(0,ComputeLength,0,3);
 
-    asm("nop"); //Marking end of computatio
+    asm("nop"); //Marking end of computation
 
     // if not here, the Sum will not be available to CPU (Datarace)
     ROCC_INSTRUCTION_SS(0,&array1, &sum,1);

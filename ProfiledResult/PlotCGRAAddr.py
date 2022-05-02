@@ -64,8 +64,12 @@ def MakeGraphData(Benchmark, IsBaseBench=False):
         for i in SectionDict[Sections[k]]["PCcycles"]:
             plot[k] += int(i)
 
+    print(plot)
     return plot
 
+def PrintData(Benchmark, plot):
+    print("Benchmark: \t initial setup: \t Configuration: \t Calculation: \t")
+    print("{:1}\t {:1}:{:1}% \t {:1}:{:1}% \t {:1}:{:1}% \t ".format(Benchmark, plot[0],plot[0]/plot[3], plot[1],plot[1]/plot[3], plot[2],plot[2]/plot[3]))
 
 ##################################################################################################
 # try:
@@ -99,6 +103,7 @@ plot5 = MakeGraphData(Benchmark[4])
 plot6 = MakeGraphData(Benchmark[5])
 plot7 = MakeGraphData(Benchmark[6])
 
+
 # plot = {}
 # for i in Benchmark:
 #     if "Base" in i:
@@ -123,6 +128,6 @@ plt.title("CGRA performance")
 plt.bar(x, y[0])
 plt.bar(x, y[1], bottom=y[0])
 plt.bar(x, y[2], bottom=y[0]+y[1])
-plt.legend(["configuration", "Program", "Configuration"])
+plt.legend(["Configuration", "Initial setup", "Computation"])
 plt.show()
 

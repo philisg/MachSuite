@@ -4,30 +4,35 @@
 
 void array_gen(int len , int array[]){
     int arraysum = 0;
-    for(int i = 0; i < len; i++){
+    for(int i = 0; i< len; i++){
         array[i] = rand() % 100;
         arraysum += array[i];   
-        printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
+        // printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
     }
+    printf("Arraysum is: %d\n", arraysum);
 }
-// Simple accumulation
-int main() {
-    asm("nop"); //Marking start of program
-    asm("nop"); //Marking start of configuration
+
+int main () {
+
+    asm ("nop"); //Marking start of program
     
-    int a[]= {1,2};
+    int ComputeLength = 100;
+    int array1[] = {1,2,3,4,5,6};
+    // printf("Starting program!\n");
+
+    array_gen(ComputeLength,array1);
+
     int sum = 0;
 
-    array_gen(100,a);
-    // int i;
-    asm("nop"); //Marking start of Computation
-    for (int i = 0; i < 100; i++) {
+    asm("nop"); //Marking start of configuration
+
+    asm("nop"); //Marking the starting of computation
+    for (int i = 0; i < ComputeLength; i++) {
         //DFGLoop: loop
-        sum += a[i];
+        sum += array1[i];
     }
-    // printf("sum = %d\n", sum);
 
     asm("nop"); //Marking end of computation
-    return sum;
+    printf("Program Done! Sum is: %d\n", sum);
+    return 0;
 }
-
