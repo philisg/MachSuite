@@ -111,7 +111,6 @@ plot7 = MakeGraphData(Benchmark[6])
 #     else:
 #         plot[i] = MakeGraphData(i)
 
-
 y = {}
 for i in  range(0,3):
     y[i] = np.array([   plot1[i]/Base_Number_Of_Cycles, 
@@ -124,10 +123,44 @@ for i in  range(0,3):
 
 x = Benchmark
 
+
+plt.title("CGRA performance Initial setup")
+bars = plt.bar(x, y[1])
+# plt.bar(x, y[1], bottom=y[0])
+# plt.bar(x, y[2], bottom=y[0]+y[1])
+plt.bar_label(bars, fmt='%.3f')
+plt.axis([-0.5,6.5, 0.74, 0.82])
+plt.xticks(rotation=45)
+plt.savefig('initial_setup_performance_plot.png', bbox_inches='tight')
+
+plt.figure(2)
+plt.title("CGRA performance Configuration")
+bars = plt.bar(x, y[0])
+# plt.bar(x, y[1], bottom=y[0])
+# plt.bar(x, y[2], bottom=y[0]+y[1])
+plt.xticks(rotation=45)
+plt.bar_label(bars, fmt='%.3f')
+plt.savefig('Configuration_performance_plot.png', bbox_inches='tight')
+
+plt.figure(3)
+plt.title("CGRA performance Computation")
+bars = plt.bar(x, y[2])
+# plt.bar(x, y[1], bottom=y[0])
+# plt.bar(x, y[2], bottom=y[0]+y[1])
+plt.axis([-0.5,6.5, 0.18, 0.24])
+plt.bar_label(bars, fmt='%.3f')
+plt.xticks(rotation=45)
+
+
+plt.savefig('computation_performance_plot.png', bbox_inches='tight')
+
+plt.figure(4)
 plt.title("CGRA performance")
 plt.bar(x, y[0])
 plt.bar(x, y[1], bottom=y[0])
-plt.bar(x, y[2], bottom=y[0]+y[1])
+bars = plt.bar(x, y[2], bottom=y[0]+y[1])
+plt.bar_label(bars, fmt='%.3f')
+plt.xticks(rotation=45)
 plt.legend(["Configuration", "Initial setup", "Computation"])
-plt.show()
+plt.savefig('overall_performance_plot.png', bbox_inches='tight')
 

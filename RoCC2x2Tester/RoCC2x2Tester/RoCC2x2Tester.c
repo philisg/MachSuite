@@ -56,7 +56,7 @@ int main () {
     asm ("nop"); //Marking start of program
 
     int ComputeLength = 100;
-    int array1[] = {1,2,3,4,5,6};
+    int array1[100];
     // printf("Starting program!\n");
     
     array_gen(ComputeLength,array1);

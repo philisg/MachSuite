@@ -81,7 +81,7 @@ int main () {
     // This will also start the calculation
     ROCC_INSTRUCTION_SS(0,ComputeLength,0,3);
 
-    asm("nop"); //Marking end of computatio
+    asm("nop"); //Marking end of computation
 
     // if not here, the Sum will not be available to CPU (Datarace)
     ROCC_INSTRUCTION_SS(0,&array1, &sum,1);
