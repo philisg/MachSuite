@@ -88,20 +88,22 @@ def PrintData(Benchmark, plot):
 Benchmark = [   
             "Base_result", 
             "2x2result",
-            "4x3result",
-            "6x6result",
+            # "4x3result",
+            # "6x6result",
             "stream2x2result",
-            "stream4x3result",
-            "stream6x6result"]
+            # "stream4x3result",
+            # "stream6x6result",
+            "streamDouble6x6result"]
 
 
 plot1 = MakeGraphData(Benchmark[0], True)
 plot2 = MakeGraphData(Benchmark[1])
-plot3 = MakeGraphData(Benchmark[2])
-plot4 = MakeGraphData(Benchmark[3])
-plot5 = MakeGraphData(Benchmark[4])
-plot6 = MakeGraphData(Benchmark[5])
-plot7 = MakeGraphData(Benchmark[6])
+# plot3 = MakeGraphData(Benchmark[2])
+# plot4 = MakeGraphData(Benchmark[3])
+plot5 = MakeGraphData(Benchmark[2])
+# plot6 = MakeGraphData(Benchmark[5])
+# plot7 = MakeGraphData(Benchmark[6])
+plot8 = MakeGraphData(Benchmark[3])
 
 
 # plot = {}
@@ -115,11 +117,12 @@ y = {}
 for i in  range(0,3):
     y[i] = np.array([   plot1[i]/Base_Number_Of_Cycles, 
                         plot2[i]/Base_Number_Of_Cycles,
-                        plot3[i]/Base_Number_Of_Cycles, 
-                        plot4[i]/Base_Number_Of_Cycles, 
+                        # plot3[i]/Base_Number_Of_Cycles, 
+                        # plot4[i]/Base_Number_Of_Cycles, 
                         plot5[i]/Base_Number_Of_Cycles, 
-                        plot6[i]/Base_Number_Of_Cycles, 
-                        plot7[i]/Base_Number_Of_Cycles])
+                        # plot6[i]/Base_Number_Of_Cycles, 
+                        # plot7[i]/Base_Number_Of_Cycles,
+                        plot8[i]/Base_Number_Of_Cycles])
 
 x = Benchmark
 
@@ -147,7 +150,7 @@ plt.title("CGRA performance Computation")
 bars = plt.bar(x, y[2])
 # plt.bar(x, y[1], bottom=y[0])
 # plt.bar(x, y[2], bottom=y[0]+y[1])
-plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars, fmt='%.3f')
 plt.xticks(rotation=45)
 

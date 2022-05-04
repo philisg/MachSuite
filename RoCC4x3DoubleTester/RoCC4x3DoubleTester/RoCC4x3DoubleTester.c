@@ -4,9 +4,9 @@
 #include "rocc.h"
 #include "encoding.h"
 #include "compiler.h"
-#include "RoCC2x2Tester.h"
+#include "RoCC4x3Tester.h"
 
-#define ComputeLength 100
+#define ComputeLength 102
 
 
 /* instruction		    roccinst	src1		    src2	        dst	  custom-N
@@ -30,7 +30,7 @@ void send_config(){
     unsigned long int config1 = 0;
     unsigned long int config2 = 0;
 
-    for(int k = 0; k < 3; k=k+2){
+    for(int k = 0; k < 11; k=k+2){
         for(int i = 0; i < 8; i ++){
             config1 = config1 << 8;
             config1 = config1 | cgra_configuration[i+(8*k)];
@@ -44,12 +44,18 @@ void send_config(){
 
 void array_gen(int array[]){
     int arraysum = 0;
-    for(int i = 0; i< ComputeLength; i++){
-        array[i] = rand() % 100;
-        arraysum += array[i];     
-        // printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
+    int a, b;
+    for(int i = 0; i< ComputeLength/2; i++){
+        a = rand() % 100;
+        b = rand() % 100;
+        // c = rand() % 100;
+        array[i] = a | (b << 16);
+        // array[i+1] = c;
+        arraysum += a + b;     
+        printf("Array[%d] = %d with address 1: %p, 2:%p , Sum is: %d, a:  %d, b: %d\n", i,array[i], &array[i], &array[i+1], arraysum, a,b);
     }
     printf("Arraysum is: %d\n", arraysum);
+
 }
 
 int main () {
@@ -77,7 +83,7 @@ int main () {
 
     asm("nop"); //Marking the starting of computation
     
-     // Send the array length. This need to be the same for array1 and array2 in this configuration
+    // Send the array length. This need to be the same for array1 and array2 in this configuration
     // This will also start the calculation
     ROCC_INSTRUCTION_SS(0,ComputeLength,0,3);
 

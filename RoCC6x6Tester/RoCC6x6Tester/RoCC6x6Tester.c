@@ -6,6 +6,8 @@
 #include "compiler.h"
 #include "RoCC6x6Tester.h"
 
+#define ComputeLength 100
+
 
 /* instruction		    roccinst	src1		    src2	        dst	  custom-N
   configure			    0			config          config	        -	  0
@@ -40,9 +42,9 @@ void send_config(){
     // printf("Config Sent!!\n");
 }
 
-void array_gen(int len , int array[]){
+void array_gen(int array[]){
     int arraysum = 0;
-    for(int i = 0; i< len; i++){
+    for(int i = 0; i< ComputeLength; i++){
         array[i] = rand() % 100;
         arraysum += array[i];   
         // printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
@@ -54,11 +56,10 @@ int main () {
 
     asm ("nop"); //Marking start of program
 
-    int ComputeLength = 100;
-    int array1[] = {1,2,3,4,5,6};
+    int array1[ComputeLength];
     // printf("Starting program!\n");
 
-    array_gen(ComputeLength,array1);
+    array_gen(array1);
     
     int sum = 0;    
 
