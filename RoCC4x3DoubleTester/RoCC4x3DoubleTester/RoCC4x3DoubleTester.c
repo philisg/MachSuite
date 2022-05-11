@@ -6,7 +6,7 @@
 #include "compiler.h"
 #include "RoCC4x3Tester.h"
 
-#define ComputeLength 102
+#define ComputeLength 2001
 
 
 /* instruction		    roccinst	src1		    src2	        dst	  custom-N
@@ -26,17 +26,16 @@
   funct7		rs2		rs1		xd	xs1	xs2	rd	opcode
   roccinst	src2	src1				dst	custom-0/1/2/3 */
 
+// void send_config(){
+//     unsigned long int config1 = 0;
+//     unsigned long int config2 = 0;
+
 void send_config(){
     unsigned long int config1 = 0;
     unsigned long int config2 = 0;
-
     for(int k = 0; k < 11; k=k+2){
-        for(int i = 0; i < 8; i ++){
-            config1 = config1 << 8;
-            config1 = config1 | cgra_configuration[i+(8*k)];
-            config2 = config2 << 8;
-            config2 = config2 | cgra_configuration[i+(8*k)+8];
-        }
+        config1 = cgra_configuration[k];
+        config2 = cgra_configuration[k+1];
         ROCC_INSTRUCTION_SS(0,config1, config2, 0);
     }
     // printf("Config Sent!!\n");
@@ -46,13 +45,11 @@ void array_gen(int array[]){
     int arraysum = 0;
     int a, b;
     for(int i = 0; i< ComputeLength/2; i++){
-        a = rand() % 100;
-        b = rand() % 100;
-        // c = rand() % 100;
+        a = rand() % 65535;
+        b = rand() % 65535;
         array[i] = a | (b << 16);
-        // array[i+1] = c;
         arraysum += a + b;     
-        printf("Array[%d] = %d with address 1: %p, 2:%p , Sum is: %d, a:  %d, b: %d\n", i,array[i], &array[i], &array[i+1], arraysum, a,b);
+        // printf("Array[%d] = %d with address 1: %p, 2:%p , Sum is: %d, a:  %d, b: %d\n", i,array[i], &array[i], &array[i+1], arraysum, a,b);
     }
     printf("Arraysum is: %d\n", arraysum);
 

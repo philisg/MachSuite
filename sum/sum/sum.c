@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ComputeLength 100
+#define ComputeLength 2001
 
 
 void array_gen(int array[]){
     int arraysum = 0;
     for(int i = 0; i< ComputeLength; i++){
-        array[i] = rand() % 100;
+        array[i] = rand() % 65535;
         arraysum += array[i];   
         // printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
     }
@@ -28,9 +28,10 @@ int main () {
     asm("nop"); //Marking start of configuration
 
     asm("nop"); //Marking the starting of computation
-    for (int i = 0; i < ComputeLength; i++) {
+    for (int i = 0; i < ComputeLength; i=i+3) {
         //DFGLoop: loop
-        sum += array1[i];
+        // sum += array1[i];
+        sum += array1[i] + array1[i+1] + array1[i+2];
     }
 
     asm("nop"); //Marking end of computation

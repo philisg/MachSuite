@@ -1,10 +1,11 @@
 BENCHMARKS=\
-	RoCC2x2DoubleTester/RoCC2x2DoubleTester \
 	RoCC2x2Tester/RoCC2x2Tester \
 	RoCC4x3DoubleTester/RoCC4x3DoubleTester \
 	RoCC4x3Tester/RoCC4x3Tester \
 	RoCC6x6DoubleTester/RoCC6x6DoubleTester \
-	RoCC6x6Tester/RoCC6x6Tester
+	RoCC6x6Tester/RoCC6x6Tester\
+	sum/sum
+
 #FIXME\
 	backprop/backprop \
 
