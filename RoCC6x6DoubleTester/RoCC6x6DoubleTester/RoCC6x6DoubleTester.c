@@ -2,8 +2,6 @@
 #include <stdlib.h>
 
 #include "rocc.h"
-#include "encoding.h"
-#include "compiler.h"
 #include "RoCC6x6Tester.h"
 
 #define ComputeLength 2001

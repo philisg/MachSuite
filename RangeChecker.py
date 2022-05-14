@@ -1,3 +1,5 @@
+# This is a script for checking the ranges in the printout from verilator. 
+
 import pandas as pd
 # import sys
 import os

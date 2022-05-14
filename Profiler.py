@@ -1,3 +1,5 @@
+#This is a script for making plots from the result printout from Verilator. 
+
 #!/usr/bin/python
 import sys
 

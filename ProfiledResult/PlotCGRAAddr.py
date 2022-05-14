@@ -134,9 +134,9 @@ Benchmark = [
 
 ShortComputationArray = {
                         "Base": 611,
-                        "2x2": 564,
-                        "4x3": 670,
-                        "6x6": 684,
+                        "Buffer 2x2": 564,
+                        "Buffer 4x3": 670,
+                        "Buffer 6x6": 684,
                         "Stream 2x2": 512,
                         "Stream 4x3": 496,
                         "Stream 6x6": 510
@@ -144,15 +144,15 @@ ShortComputationArray = {
 
 ShortComputationArrayPar = {
                         "Base parallel 3": 175,
-                        "Paralell stream 4x3": 214,
-                        "Paralell stream 6x6": 149
+                        "Parallel stream 4x3": 214,
+                        "Parallel stream 6x6": 149
                         }
 
 MediumComputationArray = {
                         "Base": 2043,
-                        "2x2": 3334,
-                        "4x3": 3300,
-                        "6x6": 3386,
+                        "Buffer 2x2": 3334,
+                        "Buffer 4x3": 3300,
+                        "Buffer 6x6": 3386,
                         "Stream 2x2": 2491,
                         "Stream 4x3": 2470,
                         "Stream 6x6": 2544
@@ -160,15 +160,15 @@ MediumComputationArray = {
 
 MediumComputationArrayPar = {
                         "Base parallel 3": 1386,
-                        "Paralell stream 4x3": 1019,
-                        "Paralell stream 6x6": 739
+                        "Parallel stream 4x3": 1019,
+                        "Parallel stream 6x6": 739
                         }
 
 LongComputationArray = {
                         "Base": 10592,
-                        "2x2": 13560,
-                        "4x3": 13428,
-                        "6x6": 13326,
+                        "Buffer 2x2": 13560,
+                        "Buffer 4x3": 13428,
+                        "Buffer 6x6": 13326,
                         "Stream 2x2": 10200,
                         "Stream 4x3": 10081,
                         "Stream 6x6": 9994
@@ -176,14 +176,14 @@ LongComputationArray = {
 
 LongComputationArrayPar = {
                         "Base parallel 3": 7878,
-                        "Paralell stream 4x3": 4250,
-                        "Paralell stream 6x6": 2827
+                        "Parallel stream 4x3": 4250,
+                        "Parallel stream 6x6": 2827
                         }
 
 ConfigurationArray = {  "Base": 1,
-                        "2x2": 514,
-                        "4x3": 1407,
-                        "6x6": 3841,
+                        "Buffer 2x2": 514,
+                        "Buffer 4x3": 1407,
+                        "Buffer 6x6": 3841,
                         "Stream 2x2": 514,
                         "Stream 4x3": 1407,
                         "Stream 6x6": 3841
@@ -191,8 +191,8 @@ ConfigurationArray = {  "Base": 1,
 
 ConfigurationArrayPar = {
                         "Base parallel 3": 1,
-                        "Paralell stream 4x3": 1407,
-                        "Paralell stream 6x6": 3778
+                        "Parallel stream 4x3": 1407,
+                        "Parallel stream 6x6": 3841
                     }
 
 configSize = {  "Base": 0,
@@ -201,10 +201,16 @@ configSize = {  "Base": 0,
                 "6x6": 1920
                 }
 
+configTime = {  "Base": 1,
+                "2x2": 514,
+                "4x3": 1407,
+                "6x6": 3841
+                }
+
 CCodeConfigTime = { "Base": 1,
-                    "2x2": 63,
-                    "4x3": 121,
-                    "6x6": 226,
+                    "Buffer 2x2": 63,
+                    "Buffer 4x3": 121,
+                    "Buffer 6x6": 226,
                     "Stream 2x2": 63,
                     "Stream 4x3": 121,
                     "Stream 6x6": 226
@@ -212,8 +218,8 @@ CCodeConfigTime = { "Base": 1,
 
 CCodeConfigTimePar = {
                     "Base parallel 3": 1,
-                    "Paralell stream 4x3": 121,
-                    "Paralell stream 6x6": 226
+                    "Parallel stream 4x3": 121,
+                    "Parallel stream 6x6": 226
                     }
 
 yShort = np.array([el[1] for el in ShortComputationArray.items()])
@@ -227,7 +233,7 @@ bars = plt.bar(t, yShort)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('short_computation_performance_plot.png', bbox_inches='tight')
 
 yShortPar = np.array([el[1] for el in ShortComputationArrayPar.items()])
@@ -241,7 +247,7 @@ bars = plt.bar(t, yShortPar)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('short_para_computation_performance_plot.png', bbox_inches='tight')
 
 
@@ -256,7 +262,7 @@ bars = plt.bar(t, yMed)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('medium_computation_performance_plot.png', bbox_inches='tight')
 
 yMedPar = np.array([el[1] for el in MediumComputationArrayPar.items()])
@@ -270,7 +276,7 @@ bars = plt.bar(t, yMedPar)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('medium_para_computation_performance_plot.png', bbox_inches='tight')
 
 
@@ -285,7 +291,7 @@ bars = plt.bar(t, yLong)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('long_computation_performance_plot.png', bbox_inches='tight')
 
 yLongPar = np.array([el[1] for el in LongComputationArrayPar.items()])
@@ -299,7 +305,7 @@ bars = plt.bar(t, yLongPar)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('long_Para_computation_performance_plot.png', bbox_inches='tight')
 
 yConfigTime = np.array([el[1] for el in ConfigurationArray.items()])
@@ -313,7 +319,7 @@ bars = plt.bar(t, yConfigTime)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('Configuration_performance_plot.png', bbox_inches='tight')
 
 yConfigTimePar = np.array([el[1] for el in ConfigurationArrayPar.items()])
@@ -327,7 +333,7 @@ bars = plt.bar(t, yConfigTimePar)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('Configuration_Para_performance_plot.png', bbox_inches='tight')
 
 yConfigSize = np.array([el[1] for el in configSize.items()])
@@ -341,8 +347,21 @@ bars = plt.bar(t, yConfigSize)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
 plt.savefig('Config_size_plot.png', bbox_inches='tight')
+
+yConfigCycles = np.array([el[1] for el in configTime.items()])
+t = [i for i in configTime]
+plt.figure(18)
+plt.title("CGRA Configuration Time")
+plt.ylabel("Cycles")
+
+bars = plt.bar(t, yConfigCycles)
+# plt.bar(x, y[1], bottom=y[0])
+# plt.bar(x, y[2], bottom=y[0]+y[1])
+# plt.axis([-0.5,6.5, 0.18, 0.24])
+plt.bar_label(bars)
+plt.savefig('Config_time_plot.png', bbox_inches='tight')
+
 
 
 yCCodeConfig = np.array([el[1] for el in CCodeConfigTime.items()])
@@ -356,7 +375,7 @@ bars = plt.bar(t, yCCodeConfig)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('CCode_Config_plot.png', bbox_inches='tight')
 
 yCCodeConfigPar = np.array([el[1] for el in CCodeConfigTimePar.items()])
@@ -370,7 +389,7 @@ bars = plt.bar(t, yCCodeConfigPar)
 # plt.bar(x, y[2], bottom=y[0]+y[1])
 # plt.axis([-0.5,6.5, 0.18, 0.24])
 plt.bar_label(bars)
-plt.xticks(rotation=70)
+plt.xticks(rotation=40)
 plt.savefig('CCode_Config_Para_plot.png', bbox_inches='tight')
 
 
