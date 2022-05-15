@@ -4,7 +4,7 @@
 #include "rocc.h"
 #include "RoCC4x3Tester.h"
 
-#define ComputeLength 2001
+#define ComputeLength 1002
 
 
 /* instruction		    roccinst	src1		    src2	        dst	  custom-N

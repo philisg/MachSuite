@@ -130,52 +130,58 @@ Benchmark = [
 
 # x = Benchmark
 
-
-
-ShortComputationArray = {
+Computation102Array = {
                         "Base": 611,
                         "Buffer 2x2": 564,
                         "Buffer 4x3": 670,
                         "Buffer 6x6": 684,
                         "Stream 2x2": 512,
                         "Stream 4x3": 496,
-                        "Stream 6x6": 510
-                        }
-
-ShortComputationArrayPar = {
-                        "Base parallel 3": 175,
+                        "Stream 6x6": 510,
+                        ""          : 0,
+                        "Base parallel": 175,
                         "Parallel stream 4x3": 214,
                         "Parallel stream 6x6": 149
                         }
 
-MediumComputationArray = {
+Computation501Array = {
                         "Base": 2043,
                         "Buffer 2x2": 3334,
                         "Buffer 4x3": 3300,
                         "Buffer 6x6": 3386,
                         "Stream 2x2": 2491,
                         "Stream 4x3": 2470,
-                        "Stream 6x6": 2544
-                        }
-
-MediumComputationArrayPar = {
-                        "Base parallel 3": 1386,
+                        "Stream 6x6": 2544,
+                        ""          : 0,
+                        "Base parallel": 1386,
                         "Parallel stream 4x3": 1019,
                         "Parallel stream 6x6": 739
                         }
 
-LongComputationArray = {
+Computation1002Array = {
+                        "Base": 3924,
+                        "Buffer 2x2": 6782,
+                        "Buffer 4x3": 6860,
+                        "Buffer 6x6": 6848,
+                        "Stream 2x2": 5099,
+                        "Stream 4x3": 5175,
+                        "Stream 6x6": 5159,
+                        ""          : 0,
+                        "Base parallel": 2736,
+                        "Parallel stream 4x3": 2531,
+                        "Parallel stream 6x6": 1466
+                        }
+
+Computation2001Array = {
                         "Base": 10592,
                         "Buffer 2x2": 13560,
                         "Buffer 4x3": 13428,
                         "Buffer 6x6": 13326,
                         "Stream 2x2": 10200,
                         "Stream 4x3": 10081,
-                        "Stream 6x6": 9994
-                        }
-
-LongComputationArrayPar = {
-                        "Base parallel 3": 7878,
+                        "Stream 6x6": 9994,
+                        ""          : 0,
+                        "Base parallel": 7878,
                         "Parallel stream 4x3": 4250,
                         "Parallel stream 6x6": 2827
                         }
@@ -186,11 +192,9 @@ ConfigurationArray = {  "Base": 1,
                         "Buffer 6x6": 3841,
                         "Stream 2x2": 514,
                         "Stream 4x3": 1407,
-                        "Stream 6x6": 3841
-                    }
-
-ConfigurationArrayPar = {
-                        "Base parallel 3": 1,
+                        "Stream 6x6": 3841,
+                        ""          : 0,
+                        "Base parallel": 1,
                         "Parallel stream 4x3": 1407,
                         "Parallel stream 6x6": 3841
                     }
@@ -213,257 +217,352 @@ CCodeConfigTime = { "Base": 1,
                     "Buffer 6x6": 226,
                     "Stream 2x2": 63,
                     "Stream 4x3": 121,
-                    "Stream 6x6": 226
-                    }
-
-CCodeConfigTimePar = {
-                    "Base parallel 3": 1,
+                    "Stream 6x6": 226,
+                    ""          : 0,
+                    "Base parallel": 1,
                     "Parallel stream 4x3": 121,
                     "Parallel stream 6x6": 226
                     }
 
-yShort = np.array([el[1] for el in ShortComputationArray.items()])
-t = [i for i in ShortComputationArray]
+
+yCCodeConfig    = np.array([el[1] for el in CCodeConfigTime.items()])
+yConfigTime     = np.array([el[1] for el in ConfigurationArray.items()])
+y102            = np.array([el[1] for el in Computation102Array.items()])
+y501            = np.array([el[1] for el in Computation501Array.items()])
+y1002           = np.array([el[1] for el in Computation1002Array.items()])
+y2001           = np.array([el[1] for el in Computation2001Array.items()])
+
+t = [i for i in Computation102Array]
 
 plt.figure(1)
-plt.title("CGRA performance Array length = 102")
+plt.title("Benchmark result. Array length = 102")
 plt.ylabel("Cycles")
-bars = plt.bar(t, yShort)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
+plt.bar(t, y102, label='Comp')
+plt.bar(t, yCCodeConfig, bottom=y102, label='Code config')
+bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y102, label='Config')
 plt.bar_label(bars)
+# plt.axis([-0.5,6.5, 9000, 18500])
+plt.legend()
 plt.xticks(rotation=40)
-plt.savefig('short_computation_performance_plot.png', bbox_inches='tight')
-
-yShortPar = np.array([el[1] for el in ShortComputationArrayPar.items()])
-t = [i for i in ShortComputationArrayPar]
+plt.savefig('OverAll_performance_102_plot.png', bbox_inches='tight')
 
 plt.figure(2)
-plt.title("CGRA performance Array length = 102 Parallel")
+plt.title("Benchmark result. Array length = 501")
 plt.ylabel("Cycles")
-bars = plt.bar(t, yShortPar)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
+plt.bar(t, y501, label='Comp')
+plt.bar(t, yCCodeConfig, bottom=y501, label='Code config')
+bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y501, label='Config')
 plt.bar_label(bars)
+# plt.axis([-0.5,6.5, 9000, 18500])
+plt.legend()
 plt.xticks(rotation=40)
-plt.savefig('short_para_computation_performance_plot.png', bbox_inches='tight')
-
-
-yMed = np.array([el[1] for el in MediumComputationArray.items()])
-t = [i for i in MediumComputationArray]
+plt.savefig('OverAll_performance_501_plot.png', bbox_inches='tight')
 
 plt.figure(3)
-plt.title("CGRA performance Array length = 501")
+plt.title("Benchmark result. Array length = 1002")
 plt.ylabel("Cycles")
-bars = plt.bar(t, yMed)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
+plt.bar(t, y1002, label='Comp')
+plt.bar(t, yCCodeConfig, bottom=y1002, label='Code config')
+bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y1002, label='Config')
 plt.bar_label(bars)
+# plt.axis([-0.5,6.5, 9000, 18500])
+plt.legend()
 plt.xticks(rotation=40)
-plt.savefig('medium_computation_performance_plot.png', bbox_inches='tight')
-
-yMedPar = np.array([el[1] for el in MediumComputationArrayPar.items()])
-t = [i for i in MediumComputationArrayPar]
+plt.savefig('OverAll_performance_1002_plot.png', bbox_inches='tight')
 
 plt.figure(4)
-plt.title("CGRA performance Array length = 501 Parallel")
+plt.title("Benchmark result. Array length = 2001")
 plt.ylabel("Cycles")
-bars = plt.bar(t, yMedPar)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
+plt.bar(t, y2001, label='Comp')
+plt.bar(t, yCCodeConfig, bottom=y2001, label='Code config')
+bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y2001, label='Config')
 plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('medium_para_computation_performance_plot.png', bbox_inches='tight')
-
-
-yLong = np.array([el[1] for el in LongComputationArray.items()])
-t = [i for i in LongComputationArray]
-
-plt.figure(5)
-plt.title("CGRA performance Array length = 2001")
-plt.ylabel("Cycles")
-bars = plt.bar(t, yLong)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('long_computation_performance_plot.png', bbox_inches='tight')
-
-yLongPar = np.array([el[1] for el in LongComputationArrayPar.items()])
-t = [i for i in LongComputationArrayPar]
-
-plt.figure(6)
-plt.title("CGRA performance Array length = 2001 Parallel")
-plt.ylabel("Cycles")
-bars = plt.bar(t, yLongPar)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('long_Para_computation_performance_plot.png', bbox_inches='tight')
-
-yConfigTime = np.array([el[1] for el in ConfigurationArray.items()])
-t = [i for i in ConfigurationArray]
-plt.figure(7)
-plt.title("CGRA performance configuration")
-plt.ylabel("Cycles")
-
-bars = plt.bar(t, yConfigTime)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('Configuration_performance_plot.png', bbox_inches='tight')
-
-yConfigTimePar = np.array([el[1] for el in ConfigurationArrayPar.items()])
-t = [i for i in ConfigurationArrayPar]
-plt.figure(8)
-plt.title("CGRA performance configuration Parallel")
-plt.ylabel("Cycles")
-
-bars = plt.bar(t, yConfigTimePar)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('Configuration_Para_performance_plot.png', bbox_inches='tight')
-
-yConfigSize = np.array([el[1] for el in configSize.items()])
-t = [i for i in configSize]
-plt.figure(9)
-plt.title("CGRA Configuration size")
-plt.ylabel("Bits")
-
-bars = plt.bar(t, yConfigSize)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.savefig('Config_size_plot.png', bbox_inches='tight')
-
-yConfigCycles = np.array([el[1] for el in configTime.items()])
-t = [i for i in configTime]
-plt.figure(18)
-plt.title("CGRA Configuration Time")
-plt.ylabel("Cycles")
-
-bars = plt.bar(t, yConfigCycles)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.savefig('Config_time_plot.png', bbox_inches='tight')
-
-
-
-yCCodeConfig = np.array([el[1] for el in CCodeConfigTime.items()])
-t = [i for i in CCodeConfigTime]
-plt.figure(10)
-plt.title("CGRA C Code configuration time")
-plt.ylabel("Cycles")
-
-bars = plt.bar(t, yCCodeConfig)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('CCode_Config_plot.png', bbox_inches='tight')
-
-yCCodeConfigPar = np.array([el[1] for el in CCodeConfigTimePar.items()])
-t = [i for i in CCodeConfigTimePar]
-plt.figure(11)
-plt.title("CGRA C Code configuration time Parallel")
-plt.ylabel("Cycles")
-
-bars = plt.bar(t, yCCodeConfigPar)
-# plt.bar(x, y[1], bottom=y[0])
-# plt.bar(x, y[2], bottom=y[0]+y[1])
-# plt.axis([-0.5,6.5, 0.18, 0.24])
-plt.bar_label(bars)
-plt.xticks(rotation=40)
-plt.savefig('CCode_Config_Para_plot.png', bbox_inches='tight')
-
-
-
-
-t = [i for i in ShortComputationArray]
-w = 0.6
-
-plt.figure(12)
-plt.title("Overall CGRA performance len=102")
-plt.ylabel("Cycles")
-plt.bar(t, yShort, label='Comp')
-plt.bar(t, yCCodeConfig, bottom=yShort, label='Code config')
-bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yShort, label='Config')
-plt.bar_label(bars)
-
+# plt.axis([-0.5,6.5, 9000, 18500])
 plt.legend()
 plt.xticks(rotation=40)
-plt.savefig('OverAll_performance_short_plot.png', bbox_inches='tight')
+plt.savefig('OverAll_performance_2001_plot.png', bbox_inches='tight')
 
-plt.figure(13)
-plt.title("Overall CGRA performance len = 201")
-plt.ylabel("Cycles")
-plt.bar(t, yMed, label='Comp')
-plt.bar(t, yCCodeConfig, bottom=yMed, label='Code config')
-bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yMed, label='Config')
-plt.bar_label(bars)
-plt.legend()
-plt.xticks(rotation=40)
-plt.savefig('OverAll_performance_med_plot.png', bbox_inches='tight')
 
-plt.figure(14)
-plt.title("Overall CGRA performance len=2001")
-plt.ylabel("Cycles")
-plt.bar(t, yLong, label='Comp')
-plt.bar(t, yCCodeConfig, bottom=yLong, label='Code config')
-bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yLong, label='Config')
-plt.bar_label(bars)
-plt.legend()
-plt.xticks(rotation=40)
-plt.savefig('OverAll_performance_long_plot.png', bbox_inches='tight')
 
-t = [i for i in ShortComputationArrayPar]
-w = 0.6
 
-plt.figure(15)
-plt.title("Overall CGRA performance len=102 Parallel")
-plt.ylabel("Cycles")
-plt.bar(t, yShortPar, label='Comp')
-plt.bar(t, yCCodeConfigPar, bottom=yShortPar, label='Code config')
-bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yShortPar, label='Config')
-plt.bar_label(bars)
-plt.legend()
-plt.xticks(rotation=40)
-plt.savefig('OverAll_Para_performance_short_plot.png', bbox_inches='tight')
+# yShort = np.array([el[1] for el in Computation102Array.items()])
+# t = [i for i in Computation102Array]
 
-plt.figure(16)
-plt.title("Overall CGRA performance len = 201 Parallel")
-plt.ylabel("Cycles")
-plt.bar(t, yMedPar, label='Comp')
-plt.bar(t, yCCodeConfigPar, bottom=yMedPar, label='Code config')
-bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yMedPar, label='Config')
-plt.bar_label(bars)
-plt.legend()
-plt.xticks(rotation=40)
-plt.savefig('OverAll_performance_Para_med_plot.png', bbox_inches='tight')
+# plt.figure(1)
+# plt.rcParams.update({'font.size': 12})
+# plt.title("CGRA performance Array length = 102")
+# plt.ylabel("Cycles")
+# bars = plt.bar(t, yShort)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Array_102_computation_performance_plot.png', bbox_inches='tight')
 
-plt.figure(17)
-plt.title("Overall CGRA performance len=2001 Parallel")
-plt.ylabel("Cycles")
-plt.bar(t, yLongPar, label='Comp')
-plt.bar(t, yCCodeConfigPar, bottom=yLongPar, label='Code config')
-bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yLongPar, label='Config')
-plt.bar_label(bars)
-plt.legend()
-plt.xticks(rotation=40)
-plt.savefig('OverAll_performance_Para_long_plot.png', bbox_inches='tight')
+
+# yShortPar = np.array([el[1] for el in Computation102ArrayPar.items()])
+# t = [i for i in Computation102ArrayPar]
+
+# plt.figure(2)
+# plt.title("CGRA performance Array length = 102 Parallel")
+# plt.ylabel("Cycles")
+# bars = plt.bar(t, yShortPar)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Array_102_para_computation_performance_plot.png', bbox_inches='tight')
+
+
+# yMed = np.array([el[1] for el in Computation501Array.items()])
+# t = [i for i in Computation501Array]
+
+# plt.figure(3)
+# plt.title("CGRA performance Array length = 501")
+# plt.ylabel("Cycles")
+# bars = plt.bar(t, yMed)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Array_501_computation_performance_plot.png', bbox_inches='tight')
+
+# yMedPar = np.array([el[1] for el in Computation501ArrayPar.items()])
+# t = [i for i in Computation501ArrayPar]
+
+# plt.figure(4)
+# plt.title("CGRA performance Array length = 501 Parallel")
+# plt.ylabel("Cycles")
+# bars = plt.bar(t, yMedPar)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Array_501_para_computation_performance_plot.png', bbox_inches='tight')
+
+
+# yLong = np.array([el[1] for el in Computation2001Array.items()])
+# t = [i for i in Computation2001Array]
+
+# plt.figure(5)
+# plt.title("CGRA performance Array length = 2001")
+# plt.ylabel("Cycles")
+# bars = plt.bar(t, yLong)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 7500, 18500])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Array_2001_computation_performance_plot.png', bbox_inches='tight')
+
+# yLongPar = np.array([el[1] for el in Computation2001ArrayPar.items()])
+# t = [i for i in Computation2001ArrayPar]
+
+# plt.figure(6)
+# plt.title("CGRA performance Array length = 2001 Parallel")
+# plt.ylabel("Cycles")
+# bars = plt.bar(t, yLongPar)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Array_2001_Para_computation_performance_plot.png', bbox_inches='tight')
+
+# yConfigTime = np.array([el[1] for el in ConfigurationArray.items()])
+# t = [i for i in ConfigurationArray]
+# plt.figure(7)
+# plt.title("CGRA performance configuration")
+# plt.ylabel("Cycles")
+
+# bars = plt.bar(t, yConfigTime)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Configuration_performance_plot.png', bbox_inches='tight')
+
+# yConfigTimePar = np.array([el[1] for el in ConfigurationArrayPar.items()])
+# t = [i for i in ConfigurationArrayPar]
+# plt.figure(8)
+# plt.title("CGRA performance configuration Parallel")
+# plt.ylabel("Cycles")
+
+# bars = plt.bar(t, yConfigTimePar)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('Configuration_Para_performance_plot.png', bbox_inches='tight')
+
+# yConfigSize = np.array([el[1] for el in configSize.items()])
+# t = [i for i in configSize]
+# # plt.rcParams.update({'font.size': 20})
+# plt.figure(9)
+# plt.title("CGRA Configuration size")
+# plt.ylabel("Bits")
+
+# bars = plt.bar(t, yConfigSize)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# plt.axis([-0.5,3.5, 0, 2300])
+# plt.bar_label(bars)
+# plt.savefig('Config_size_plot.png', bbox_inches='tight')
+
+# yConfigCycles = np.array([el[1] for el in configTime.items()])
+# t = [i for i in configTime]
+# plt.figure(18)
+# plt.title("CGRA Configuration Time")
+# plt.ylabel("Cycles")
+
+# bars = plt.bar(t, yConfigCycles)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# plt.axis([-0.5,3.5, 0, 4500])
+# plt.bar_label(bars)
+# plt.savefig('Config_time_plot.png', bbox_inches='tight')
+
+
+
+# yCCodeConfig = np.array([el[1] for el in CCodeConfigTime.items()])
+# t = [i for i in CCodeConfigTime]
+# plt.rcParams.update({'font.size': 12})
+# plt.figure(10)
+# plt.title("CGRA C Code configuration time")
+# plt.ylabel("Cycles")
+
+# bars = plt.bar(t, yCCodeConfig)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('CCode_Config_plot.png', bbox_inches='tight')
+
+# yCCodeConfigPar = np.array([el[1] for el in CCodeConfigTimePar.items()])
+# t = [i for i in CCodeConfigTimePar]
+# plt.figure(11)
+# plt.title("CGRA C Code configuration time Parallel")
+# plt.ylabel("Cycles")
+
+# bars = plt.bar(t, yCCodeConfigPar)
+# # plt.bar(x, y[1], bottom=y[0])
+# # plt.bar(x, y[2], bottom=y[0]+y[1])
+# # plt.axis([-0.5,6.5, 0.18, 0.24])
+# plt.bar_label(bars)
+# plt.xticks(rotation=40)
+# plt.savefig('CCode_Config_Para_plot.png', bbox_inches='tight')
+
+
+
+# t = [i for i in Computation102Array]
+
+# # Plot_Maker(t, yShort,yCCodeConfig,yConfigTime,102,"Serial")
+
+# w = 0.6
+
+# plt.figure(12)
+# plt.title("Benchmark result. Array length = 102. Serial")
+# plt.ylabel("Cycles")
+# plt.bar(t, yShort, label='Comp')
+# plt.bar(t, yCCodeConfig, bottom=yShort, label='Code config')
+# bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yShort, label='Config')
+# plt.bar_label(bars)
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_102_plot.png', bbox_inches='tight')
+
+# plt.figure(13)
+# plt.title("Benchmark result. Array length = 501. Serial")
+# plt.ylabel("Cycles")
+# plt.bar(t, yMed, label='Comp')
+# plt.bar(t, yCCodeConfig, bottom=yMed, label='Code config')
+# bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yMed, label='Config')
+# plt.bar_label(bars)
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_501_plot.png', bbox_inches='tight')
+
+# plt.figure(14)
+# plt.title("Benchmark result. Array length = 2001. Serial")
+# plt.ylabel("Cycles")
+# plt.bar(t, yLong, label='Comp')
+# plt.bar(t, yCCodeConfig, bottom=yLong, label='Code config')
+# bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yLong, label='Config')
+# plt.bar_label(bars)
+# plt.axis([-0.5,6.5, 9000, 18500])
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_2001_plot.png', bbox_inches='tight')
+
+# t = [i for i in Computation102ArrayPar]
+# w = 0.6
+
+# plt.figure(15)
+# plt.title("Benchmark result. Array length = 102. Parallel")
+# plt.ylabel("Cycles")
+# plt.bar(t, yShortPar, label='Comp')
+# plt.bar(t, yCCodeConfigPar, bottom=yShortPar, label='Code config')
+# bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yShortPar, label='Config')
+# plt.bar_label(bars)
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_Para_102_plot.png', bbox_inches='tight')
+
+# plt.figure(16)
+# plt.title("Benchmark result. Array length = 501. Parallel")
+# plt.ylabel("Cycles")
+# plt.bar(t, yMedPar, label='Comp')
+# plt.bar(t, yCCodeConfigPar, bottom=yMedPar, label='Code config')
+# bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yMedPar, label='Config')
+# plt.bar_label(bars)
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_Para_501_plot.png', bbox_inches='tight')
+
+# plt.figure(17)
+# plt.title("Benchmark result. Array length = 2001. Parallel")
+# plt.ylabel("Cycles")
+# plt.bar(t, yLongPar, label='Comp')
+# plt.bar(t, yCCodeConfigPar, bottom=yLongPar, label='Code config')
+# bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yLongPar, label='Config')
+# plt.bar_label(bars)
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_Para_2001_plot.png', bbox_inches='tight')
+
+# yLongmed = np.array([el[1] for el in Computation1002Array.items()])
+# t = [i for i in Computation1002Array]
+
+# plt.figure(19)
+# plt.title("Benchmark result. Array length = 1002. Serial")
+# plt.ylabel("Cycles")
+# plt.bar(t, yLongmed, label='Comp')
+# plt.bar(t, yCCodeConfig, bottom=yLongmed, label='Code config')
+# bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+yLongmed, label='Config')
+# plt.bar_label(bars)
+# plt.axis([-0.5,6.5, 9000, 18500])
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_1002_plot.png', bbox_inches='tight')
+
+# yLongmedPar = np.array([el[1] for el in Computation1002ArrayPar.items()])
+# t = [i for i in Computation1002ArrayPar]
+
+
+# plt.figure(20)
+# plt.title("Benchmark result. Array length = 1002. Parallel")
+# plt.ylabel("Cycles")
+# plt.bar(t, yLongmedPar, label='Comp')
+# plt.bar(t, yCCodeConfigPar, bottom=yLongmedPar, label='Code config')
+# bars = plt.bar(t, yConfigTimePar, bottom=yCCodeConfigPar+yLongmedPar, label='Config')
+# plt.bar_label(bars)
+# plt.legend()
+# plt.xticks(rotation=40)
+# plt.savefig('OverAll_performance_Para_1002_plot.png', bbox_inches='tight')

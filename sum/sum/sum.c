@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ComputeLength 2001
+#define ComputeLength 1002
 
 
 void array_gen(int array[]){
     int arraysum = 0;
     for(int i = 0; i< ComputeLength; i++){
         array[i] = rand() % 65535;
-        arraysum += array[i];   
-        // printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
+        // arraysum += array[i];   
+        printf("Array[%d] = %d, Sum is: %d\n", i,array[i], arraysum);
     }
     printf("Arraysum is: %d\n", arraysum);
 }

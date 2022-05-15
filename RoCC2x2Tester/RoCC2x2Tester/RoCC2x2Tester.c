@@ -3,8 +3,9 @@
 
 #include "rocc.h"
 #include "RoCC2x2Tester.h"
+// #include "Accelerate.c"
 
-#define ComputeLength 102
+#define ComputeLength 1002
 
 
 /* instruction		    roccinst	src1		    src2	        dst	  custom-N
@@ -72,7 +73,7 @@ int main () {
 
     asm("nop"); //Marking the starting of computation
     
-     // Send the array length. This need to be the same for array1 and array2 in this configuration
+    // Send the array length. This need to be the same for array1 and array2 in this configuration
     // This will also start the calculation
     ROCC_INSTRUCTION_SS(0,ComputeLength,0,3);
 
