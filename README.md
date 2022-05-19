@@ -14,6 +14,8 @@ For now, the final check to see if the output is correct is not performed.
 We are working on fixing it. However, this should not change the computation
 or behavior of the benchmarks at all.
 
+The benchmarks used for the Master thesis is the benchmarks named with RoCC<xxxxx>Tester and Sum. The initial though was to use the MachSuite benchmarks to test the performance, but we discovered that this was a little bit hard to do at this point in time.
+
 
 ## Licensing
 
