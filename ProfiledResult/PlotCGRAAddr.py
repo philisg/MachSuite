@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 import os
 import numpy as np
+from zmq import XREP
 
 Sections = ["Configuration", "Program start", "Computation"]
 Base_Number_Of_Lines = 0
@@ -186,10 +187,31 @@ Computation2001Array = {
                         "Parallel stream 6x6": 2827
                         }
 
+Computation9000Array = {
+                        "Base": 46389,
+                        "Stream 2x2": 46471,
+                        "Stream 4x3": 47245,
+                        "Stream 6x6": 49776,
+                        ""          : 0,
+                        "Base parallel": 34422,
+                        "Parallel stream 4x3": 24463,
+                        "Parallel stream 6x6": 16774
+                        }
+
 ConfigurationArray = {  "Base": 1,
                         "Buffer 2x2": 514,
                         "Buffer 4x3": 1407,
                         "Buffer 6x6": 3841,
+                        "Stream 2x2": 514,
+                        "Stream 4x3": 1407,
+                        "Stream 6x6": 3841,
+                        ""          : 0,
+                        "Base parallel": 1,
+                        "Parallel stream 4x3": 1407,
+                        "Parallel stream 6x6": 3841
+                    }
+
+ConfigurationArray9000 = {  "Base": 1,
                         "Stream 2x2": 514,
                         "Stream 4x3": 1407,
                         "Stream 6x6": 3841,
@@ -223,67 +245,122 @@ CCodeConfigTime = { "Base": 1,
                     "Parallel stream 4x3": 121,
                     "Parallel stream 6x6": 226
                     }
+CCodeConfigTime9000 = { "Base": 1,
+                    "Stream 2x2": 63,
+                    "Stream 4x3": 121,
+                    "Stream 6x6": 226,
+                    ""          : 0,
+                    "Base parallel": 1,
+                    "Parallel stream 4x3": 121,
+                    "Parallel stream 6x6": 226
+                    }
+# ResBaseParallel = [176,1387,2737,7879]
+# Res4x3Parallel = [1742,2547,4059,5778]
+# Res6x6Parallel = [4216,4806,5533,6894]
+ResBaseParallel = [1,1,1,1,1]
+Res4x3Parallel = [0.1,0.54,0.67,1.36,1.41]
+Res6x6Parallel = [0.04,0.29,0.49,1.14,2.05]
+XRep = [102,501,1002,2001,9000]
 
 
-yCCodeConfig    = np.array([el[1] for el in CCodeConfigTime.items()])
-yConfigTime     = np.array([el[1] for el in ConfigurationArray.items()])
-y102            = np.array([el[1] for el in Computation102Array.items()])
-y501            = np.array([el[1] for el in Computation501Array.items()])
-y1002           = np.array([el[1] for el in Computation1002Array.items()])
-y2001           = np.array([el[1] for el in Computation2001Array.items()])
+yCCodeConfig    = np.array([el[1]/611 for el in CCodeConfigTime.items()])
+yConfigTime     = np.array([el[1]/611 for el in ConfigurationArray.items()])
+y102            = np.array([el[1]/611 for el in Computation102Array.items()])
+
 
 t = [i for i in Computation102Array]
 
 plt.figure(1)
-plt.title("Benchmark result. Array length = 102")
-plt.ylabel("Cycles")
+# plt.title("Benchmark result. Array length = 102")
+plt.ylabel("Time relative to \"Base\"")
 plt.bar(t, y102, label='Comp')
 plt.bar(t, yCCodeConfig, bottom=y102, label='Code config')
 bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y102, label='Config')
-plt.bar_label(bars)
+# plt.bar_label(bars)
 # plt.axis([-0.5,6.5, 9000, 18500])
-plt.legend()
-plt.xticks(rotation=40)
+# plt.legend()
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, fancybox=True, shadow=True)
+plt.xticks(rotation=90)
 plt.savefig('OverAll_performance_102_plot.png', bbox_inches='tight')
 
+yCCodeConfig    = np.array([el[1]/2043 for el in CCodeConfigTime.items()])
+yConfigTime     = np.array([el[1]/2043 for el in ConfigurationArray.items()])
+y501            = np.array([el[1]/2043 for el in Computation501Array.items()])
+
+
 plt.figure(2)
-plt.title("Benchmark result. Array length = 501")
-plt.ylabel("Cycles")
+# plt.title("Benchmark result. Array length = 501")
+plt.ylabel("Time relative to \"Base\"")
 plt.bar(t, y501, label='Comp')
 plt.bar(t, yCCodeConfig, bottom=y501, label='Code config')
 bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y501, label='Config')
-plt.bar_label(bars)
+# plt.bar_label(bars)
 # plt.axis([-0.5,6.5, 9000, 18500])
-plt.legend()
-plt.xticks(rotation=40)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, fancybox=True, shadow=True)
+# plt.legend()
+plt.xticks(rotation=90)
 plt.savefig('OverAll_performance_501_plot.png', bbox_inches='tight')
 
+yCCodeConfig    = np.array([el[1]/3924 for el in CCodeConfigTime.items()])
+yConfigTime     = np.array([el[1]/3924 for el in ConfigurationArray.items()])
+y1002           = np.array([el[1]/3924 for el in Computation1002Array.items()])
+
 plt.figure(3)
-plt.title("Benchmark result. Array length = 1002")
-plt.ylabel("Cycles")
+# plt.title("Benchmark result. Array length = 1002")
+plt.ylabel("Time relative to \"Base\"")
 plt.bar(t, y1002, label='Comp')
 plt.bar(t, yCCodeConfig, bottom=y1002, label='Code config')
 bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y1002, label='Config')
-plt.bar_label(bars)
+# plt.bar_label(bars)
 # plt.axis([-0.5,6.5, 9000, 18500])
-plt.legend()
-plt.xticks(rotation=40)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, fancybox=True, shadow=True)
+# plt.legend()
+plt.xticks(rotation=90)
 plt.savefig('OverAll_performance_1002_plot.png', bbox_inches='tight')
 
+yCCodeConfig    = np.array([el[1]/10592 for el in CCodeConfigTime.items()])
+yConfigTime     = np.array([el[1]/10592 for el in ConfigurationArray.items()])
+y2001           = np.array([el[1]/10592 for el in Computation2001Array.items()])
+
+
 plt.figure(4)
-plt.title("Benchmark result. Array length = 2001")
-plt.ylabel("Cycles")
+# plt.title("Benchmark result. Array length = 2001")
+plt.ylabel("Time relative to \"Base\"")
 plt.bar(t, y2001, label='Comp')
 plt.bar(t, yCCodeConfig, bottom=y2001, label='Code config')
 bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y2001, label='Config')
-plt.bar_label(bars)
+# plt.bar_label(bars)
 # plt.axis([-0.5,6.5, 9000, 18500])
-plt.legend()
-plt.xticks(rotation=40)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, fancybox=True, shadow=True)
+# plt.legend()
+plt.xticks(rotation=90)
 plt.savefig('OverAll_performance_2001_plot.png', bbox_inches='tight')
 
+yCCodeConfig    = np.array([el[1]/46388 for el in CCodeConfigTime9000.items()])
+yConfigTime     = np.array([el[1]/46388 for el in ConfigurationArray9000.items()])
+y9000           = np.array([el[1]/46388 for el in Computation9000Array.items()])
+t = [i for i in Computation9000Array]
+
+plt.figure(5)
+plt.ylabel("Time relative to \"Base\"")
+plt.bar(t, y9000, label='Comp')
+plt.bar(t, yCCodeConfig, bottom=y9000, label='Code config')
+bars = plt.bar(t, yConfigTime, bottom=yCCodeConfig+y9000, label='Config')
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, fancybox=True, shadow=True)
+plt.xticks(rotation=90)
+plt.savefig('OverAll_performance_9000_plot.png', bbox_inches='tight')
 
 
+
+plt.figure(6)
+plt.plot(XRep,ResBaseParallel, label = "Base")
+plt.plot(XRep,Res4x3Parallel, label = "4x3")
+plt.plot(XRep,Res6x6Parallel, label = "6x6")
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=3, fancybox=True, shadow=True)
+plt.xlabel('Array Length')
+plt.xticks(np.arange(0, 9500, 1000))
+plt.ylabel('Performance gain to Base')
+plt.savefig('Crosspoint_plot.png', bbox_inches='tight')
 
 # yShort = np.array([el[1] for el in Computation102Array.items()])
 # t = [i for i in Computation102Array]
